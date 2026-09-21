@@ -11,9 +11,9 @@ export function ServicesPreview() {
     <section className="py-20">
       <div className="container">
         <SectionHeading
-          eyebrow="Capabilities"
-          title="One studio. Every digital layer that actually moves revenue."
-          description="Pick a practice to start — or bring a messy brief. We will tell you which service belongs first."
+          eyebrow="What we build"
+title="Software, web, and AI — delivered like one team owns the outcome."
+description="Start with one service, or send the messy brief. We’ll tell you what to ship first, and what can wait."
         />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, index) => {
