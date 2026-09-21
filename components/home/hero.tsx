@@ -22,7 +22,7 @@ export function Hero() {
       <div className="container relative grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-electric/40 bg-electric/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-electric">
-            Founder-led · Accurate delivery · UK & global
+            Founder-led · Accurate delivery · UK & global . Feature1 test 
           </p>
           <h1 className="font-heading text-5xl font-bold leading-[1.08] sm:text-6xl lg:text-7xl">
             The studio clients call when the last vendor{" "}
