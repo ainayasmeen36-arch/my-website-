@@ -9,6 +9,8 @@ import sys
 import tempfile
 
 SITE_DOMAIN = "ainexia.com"
+# File Manager for this plan opens this temp Hostinger site, not ainexia.com.
+PREVIEW_SITE = "saddlebrown-dinosaur-391331.hostingersite.com"
 
 
 def lftp_quote(value: str) -> str:
@@ -32,15 +34,16 @@ def clean_password(raw: str) -> str:
 
 
 def remote_candidates(raw: str) -> list[str]:
-    remote = raw.strip().replace("\r", "").strip("/")
+    """The Hostinger File Manager you use is the preview site, not ainexia.com."""
+    preview = f"domains/{PREVIEW_SITE}/public_html"
+    custom = (raw or "").strip().replace("\r", "").strip("/")
     skip = {"", ".", "out", "./out", "public_html"}
     candidates = [
+        preview,
         f"domains/{SITE_DOMAIN}/public_html",
-        f"domains/www.{SITE_DOMAIN}/public_html",
     ]
-    if remote and remote not in skip and remote not in candidates:
-        candidates.insert(0, remote)
-    candidates.extend(["public_html", "."])
+    if custom and custom not in skip and custom not in candidates:
+        candidates.append(custom)
     return candidates
 
 
@@ -83,6 +86,7 @@ def probe(user: str, host: str, password: str, proto: str, port: int) -> None:
             *connect_prefix(user, host, password, proto, port),
             "set cmd:fail-exit no",
             "cls -1 domains",
+            f"cls -1 domains/{PREVIEW_SITE}",
             "cls -1 domains/ainexia.com",
             "bye",
         ]
