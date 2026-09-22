@@ -113,7 +113,10 @@ def try_upload(
             "set cmd:fail-exit yes",
             "lcd ./out",
             f"cd {lftp_quote(remote)}",
-            "mirror -R --no-perms --parallel=4 --overwrite . .",
+            # --delete removes Hostinger leftovers (default.php, old zips, unused _next)
+            # that are not in the current Next.js export.
+            "mirror -R --delete --no-perms --parallel=4 --overwrite "
+            "--exclude-glob .well-known/ --exclude-glob cgi-bin/ --exclude-glob error_log . .",
             "set cmd:fail-exit no",
             "cls -1",
             "bye",
@@ -142,7 +145,7 @@ def main() -> int:
     host = clean_host(os.environ.get("FTP_SERVER", ""))
     user = clean_user(os.environ.get("FTP_USERNAME", ""))
     password = clean_password(os.environ.get("FTP_PASSWORD", ""))
-    remotes = remote_candidates(os.environ.get("FTP_REMOTE_DIR", ""))
+    remotes = [f"domains/{PREVIEW_SITE}/public_html"]
 
     if not all([host, user, password]):
         print("FTP_SERVER, FTP_USERNAME, or FTP_PASSWORD is empty")
