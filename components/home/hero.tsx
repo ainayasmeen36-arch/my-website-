@@ -25,7 +25,7 @@ export function Hero() {
             Founder-led · Accurate delivery · UK & global . Feature1 test 
           </p>
           <h1 className="font-heading text-5xl font-bold leading-[1.08] sm:text-6xl lg:text-7xl">
-            Changing this for testin purpose{" "}
+            The studio clients call when the last vendor {" "}
             <span className="gradient-text">missed the brief.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200">
