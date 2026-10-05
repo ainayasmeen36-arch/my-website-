@@ -107,6 +107,7 @@ def try_upload(
     print(f"Trying {proto}://{host}:{port} (username length {len(user)})")
     probe(user, host, password, proto, port)
 
+    any_ok = False
     for remote in remotes:
         lines = [
             *connect_prefix(user, host, password, proto, port),
@@ -127,14 +128,15 @@ def try_upload(
             print(f"Deploy succeeded via {proto} port {port} into {remote}")
             if combined:
                 print(combined[-800:])
-            return True
+            any_ok = True
+            continue
         if combined:
             print(combined[-1200:])
         if re.search(r"530 |Login incorrect|Login failed|authentication failed", combined, re.I):
             return False
         if re.search(r"Connection refused", combined, re.I):
             return False
-    return False
+    return any_ok
 
 
 def main() -> int:
@@ -145,7 +147,10 @@ def main() -> int:
     host = clean_host(os.environ.get("FTP_SERVER", ""))
     user = clean_user(os.environ.get("FTP_USERNAME", ""))
     password = clean_password(os.environ.get("FTP_PASSWORD", ""))
-    remotes = [f"domains/{PREVIEW_SITE}/public_html"]
+    remotes = [
+        f"domains/{PREVIEW_SITE}/public_html",
+        f"domains/{SITE_DOMAIN}/public_html",
+    ]
 
     if not all([host, user, password]):
         print("FTP_SERVER, FTP_USERNAME, or FTP_PASSWORD is empty")
